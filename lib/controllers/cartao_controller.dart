@@ -10,4 +10,8 @@ class CartaoController extends GetxController {
   void decrement() {
     counter--;
   }
+
+  void resetCounter() {
+    counter.value = 0;
+  }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panucci_delivery/components/order_item.dart';
 import 'package:panucci_delivery/controllers/carrinho_controller.dart';
-import 'package:panucci_delivery/screens/home.dart';
 import 'package:panucci_delivery/utils/app_snackbars.dart';
 import '../components/payment_method.dart';
 import '../components/payment_total.dart';
@@ -10,12 +9,17 @@ import '../components/payment_total.dart';
 class Checkout extends StatelessWidget {
   Checkout({super.key});
 
-  final CarrinhoController controller = Get.find<CarrinhoController>();
-
+  final CarrinhoController carrinhoController = Get.find<CarrinhoController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Pedido",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: CustomScrollView(
@@ -24,15 +28,15 @@ class Checkout extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    "Pedido",
+                    "Itens adicionados",
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
               SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                return OrderItem(item: controller.carrinho[index]);
-              }, childCount: controller.carrinho.length)),
+                return OrderItem(item: carrinhoController.carrinho[index]);
+              }, childCount: carrinhoController.carrinho.length)),
               const SliverToBoxAdapter(
                 child: Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
@@ -55,7 +59,7 @@ class Checkout extends StatelessWidget {
                 ),
               ),
               SliverToBoxAdapter(
-                child: PaymentTotal(total: controller.total.value),
+                child: PaymentTotal(total: carrinhoController.total.value),
               ),
               SliverFillRemaining(
                 hasScrollBody: false,
@@ -63,8 +67,8 @@ class Checkout extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
                       onPressed: () {
-                        Get.offAll(() => Home());
-                        controller.resetCard();
+                        Get.back();
+                        carrinhoController.resetCard();
                         AppSnackbars.getPayment();
                       },
                       style: ElevatedButton.styleFrom(

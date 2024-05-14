@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:panucci_delivery/cardapio.dart';
 
 import '../models/item.dart';
-import 'cartao/cartao.dart';
+import 'cartao.dart';
 
 class ItemList extends StatelessWidget {
   const ItemList({super.key, required this.categoria});
